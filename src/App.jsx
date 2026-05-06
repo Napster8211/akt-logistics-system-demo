@@ -37,7 +37,8 @@ const MOCK_SHIPMENT_DATA = [
 // --- COMPONENTS ---
 
 const Button = ({ children, variant = 'primary', className = '', ...props }) => {
-  const baseStyle = "px-6 py-3 rounded-md font-semibold transition-all duration-300 flex items-center justify-center text-center";
+  // Added w-full sm:w-auto to base style to ensure mobile buttons span full width safely
+  const baseStyle = "w-full sm:w-auto px-6 py-3.5 sm:py-3 rounded-md font-semibold transition-all duration-300 flex items-center justify-center text-center";
   const variants = {
     primary: "bg-orange-500 hover:bg-orange-600 text-white shadow-lg hover:shadow-xl",
     secondary: "bg-blue-900 hover:bg-blue-800 text-white",
@@ -58,8 +59,8 @@ const EstimatorPage = () => {
   const [result, setResult] = useState(null);
   const [lead, setLead] = useState({ name: '', phone: '' });
 
-  const SEA_FREIGHT_RATE_PER_CBM = 250; // Mock rate GHS
-  const AIR_FREIGHT_RATE_PER_KG = 45; // Mock rate GHS
+  const SEA_FREIGHT_RATE_PER_CBM = 250;
+  const AIR_FREIGHT_RATE_PER_KG = 45;
 
   const handleCalculate = (e) => {
     e.preventDefault();
@@ -74,7 +75,6 @@ const EstimatorPage = () => {
     let recommended = 'Sea Freight';
     let isAirRecommended = false;
     
-    // Smart recommendation logic
     if (cbm < 0.5) {
       recommended = 'Air Freight';
       isAirRecommended = true;
@@ -105,7 +105,6 @@ const EstimatorPage = () => {
     });
   };
 
-  // Future Backend Placeholder
   const handleSaveEstimate = () => {
     console.log("Saving estimate lead to database:", { ...inputs, ...result, ...lead });
   };
@@ -121,47 +120,47 @@ const EstimatorPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12 animate-fadeIn">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 flex items-center justify-center">
-            <Calculator className="w-10 h-10 mr-3 text-orange-500" /> CBM & Cost Estimator
+    <div className="min-h-screen bg-gray-50 pt-20 sm:pt-24 pb-12 animate-fadeIn">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-4 flex items-center justify-center">
+            <Calculator className="w-8 h-8 sm:w-10 sm:h-10 mr-2 sm:mr-3 text-orange-500 flex-shrink-0" /> 
+            <span className="leading-tight">CBM & Cost Estimator</span>
           </h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
             Calculate your cargo volume and get instant shipping estimates from China, Dubai, or Turkey to Ghana. No hidden charges.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8">
-          {/* Input Form Section */}
-          <div className="lg:col-span-7 bg-white rounded-2xl shadow-sm border border-gray-200 p-8 h-fit">
-            <h2 className="text-xl font-bold text-blue-900 mb-6 border-b pb-4 flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
+          <div className="lg:col-span-7 bg-white rounded-2xl shadow-sm border border-gray-200 p-5 sm:p-8 h-fit">
+            <h2 className="text-lg sm:text-xl font-bold text-blue-900 mb-5 sm:mb-6 border-b pb-4 flex items-center">
               <Box className="w-5 h-5 mr-2 text-orange-500" /> Cargo Dimensions
             </h2>
-            <form onSubmit={handleCalculate} className="space-y-6">
+            <form onSubmit={handleCalculate} className="space-y-5 sm:space-y-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Length (cm)</label>
-                  <input type="number" required min="1" value={inputs.length} onChange={e => setInputs({...inputs, length: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="0" />
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Length (cm)</label>
+                  <input type="number" required min="1" value={inputs.length} onChange={e => setInputs({...inputs, length: e.target.value})} className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="0" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Width (cm)</label>
-                  <input type="number" required min="1" value={inputs.width} onChange={e => setInputs({...inputs, width: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="0" />
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Width (cm)</label>
+                  <input type="number" required min="1" value={inputs.width} onChange={e => setInputs({...inputs, width: e.target.value})} className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="0" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Height (cm)</label>
-                  <input type="number" required min="1" value={inputs.height} onChange={e => setInputs({...inputs, height: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="0" />
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Height (cm)</label>
+                  <input type="number" required min="1" value={inputs.height} onChange={e => setInputs({...inputs, height: e.target.value})} className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="0" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-                  <input type="number" required min="1" value={inputs.qty} onChange={e => setInputs({...inputs, qty: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="1" />
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                  <input type="number" required min="1" value={inputs.qty} onChange={e => setInputs({...inputs, qty: e.target.value})} className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500" placeholder="1" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Origin</label>
-                  <select value={inputs.origin} onChange={e => setInputs({...inputs, origin: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 bg-white">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Origin</label>
+                  <select value={inputs.origin} onChange={e => setInputs({...inputs, origin: e.target.value})} className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 bg-white">
                     <option value="China">China</option>
                     <option value="Dubai">Dubai (UAE)</option>
                     <option value="Turkey">Turkey</option>
@@ -169,8 +168,8 @@ const EstimatorPage = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Method</label>
-                  <select value={inputs.method} onChange={e => setInputs({...inputs, method: e.target.value})} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 bg-white">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Preferred Method</label>
+                  <select value={inputs.method} onChange={e => setInputs({...inputs, method: e.target.value})} className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 bg-white">
                     <option value="NotSure">I'm not sure (Recommend me)</option>
                     <option value="Air">Air Freight</option>
                     <option value="Sea">Sea Freight</option>
@@ -178,51 +177,53 @@ const EstimatorPage = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full py-4 text-lg shadow-md">Calculate Estimate</Button>
+              <Button type="submit" className="w-full py-4 text-base sm:text-lg shadow-md mt-2">Calculate Estimate</Button>
             </form>
           </div>
 
-          {/* Results & Lead Capture Section */}
           <div className="lg:col-span-5">
             {!result ? (
-              <div className="bg-blue-50 border border-blue-100 rounded-2xl p-8 h-full flex flex-col items-center justify-center text-center">
-                <Calculator className="w-16 h-16 text-blue-200 mb-4" />
-                <h3 className="text-xl font-bold text-blue-900 mb-2">Ready to Estimate</h3>
-                <p className="text-gray-500 text-sm">Enter your dimensions on the left to instantly calculate your CBM and shipping costs.</p>
+              <div className="bg-blue-50 border border-blue-100 rounded-2xl p-6 sm:p-8 h-full flex flex-col items-center justify-center text-center min-h-[300px]">
+                <Calculator className="w-12 h-12 sm:w-16 sm:h-16 text-blue-200 mb-4" />
+                <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2">Ready to Estimate</h3>
+                <p className="text-gray-500 text-xs sm:text-sm">Enter your dimensions to instantly calculate your CBM and shipping costs.</p>
               </div>
             ) : (
               <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden animate-fadeIn">
-                <div className="bg-blue-900 p-6 text-white text-center relative overflow-hidden">
+                <div className="bg-blue-900 p-6 sm:p-8 text-white text-center relative overflow-hidden">
                   <div className="absolute top-0 right-0 opacity-10"><Calculator className="w-32 h-32 -mt-4 -mr-4" /></div>
-                  <h3 className="text-xl font-bold mb-1 relative z-10">Estimated Cost Range</h3>
-                  <div className="text-4xl font-extrabold text-orange-500 tracking-tight mt-2 relative z-10">
-                    <span className="text-lg text-orange-300">GHS</span> {result.costMin} <span className="text-xl font-medium text-white mx-1">-</span> {result.costMax}
+                  <h3 className="text-lg sm:text-xl font-bold mb-1 relative z-10">Estimated Cost Range</h3>
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-orange-500 tracking-tight mt-2 relative z-10 flex items-center justify-center flex-wrap">
+                    <span className="text-base sm:text-lg text-orange-300 mr-2">GHS</span> 
+                    {result.costMin} 
+                    <span className="text-lg sm:text-xl font-medium text-white mx-2">-</span> 
+                    {result.costMax}
                   </div>
-                  <p className="text-blue-200 text-sm mt-3 flex items-center justify-center font-medium relative z-10">
-                    <Clock className="w-4 h-4 mr-1" /> Estimated Transit: {result.eta}
+                  <p className="text-blue-200 text-xs sm:text-sm mt-3 flex items-center justify-center font-medium relative z-10">
+                    <Clock className="w-4 h-4 mr-1" /> Est. Transit: {result.eta}
                   </p>
                 </div>
                 
-                <div className="p-6 bg-gray-50 border-b border-gray-200">
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                      <p className="text-sm text-gray-500 mb-1">Total Volume</p>
-                      <p className="text-xl font-bold text-blue-900">{result.cbm} <span className="text-sm text-gray-500 font-normal">CBM</span></p>
+                <div className="p-5 sm:p-6 bg-gray-50 border-b border-gray-200">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4 text-center">
+                    <div className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100">
+                      <p className="text-xs sm:text-sm text-gray-500 mb-1">Total Volume</p>
+                      <p className="text-lg sm:text-xl font-bold text-blue-900">{result.cbm} <span className="text-xs sm:text-sm text-gray-500 font-normal">CBM</span></p>
                     </div>
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                      <p className="text-sm text-gray-500 mb-1">Volumetric Wt.</p>
-                      <p className="text-xl font-bold text-blue-900">{result.volWeight} <span className="text-sm text-gray-500 font-normal">KG</span></p>
+                    <div className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100">
+                      <p className="text-xs sm:text-sm text-gray-500 mb-1">Volumetric Wt.</p>
+                      <p className="text-lg sm:text-xl font-bold text-blue-900">{result.volWeight} <span className="text-xs sm:text-sm text-gray-500 font-normal">KG</span></p>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-6">
+                <div className="p-5 sm:p-6">
                   {inputs.method === 'NotSure' && (
-                    <div className={`mb-6 p-4 rounded-lg flex items-start ${result.isAirRecommended ? 'bg-blue-50 border border-blue-200' : 'bg-green-50 border border-green-200'}`}>
+                    <div className={`mb-5 sm:mb-6 p-4 rounded-lg flex items-start ${result.isAirRecommended ? 'bg-blue-50 border border-blue-200' : 'bg-green-50 border border-green-200'}`}>
                       <Info className={`w-5 h-5 mt-0.5 mr-3 flex-shrink-0 ${result.isAirRecommended ? 'text-blue-500' : 'text-green-500'}`} />
                       <div>
-                        <p className={`font-bold text-sm ${result.isAirRecommended ? 'text-blue-900' : 'text-green-900'}`}>💡 Smart Recommendation</p>
-                        <p className={`text-sm mt-1 ${result.isAirRecommended ? 'text-blue-800' : 'text-green-800'}`}>
+                        <p className={`font-bold text-xs sm:text-sm ${result.isAirRecommended ? 'text-blue-900' : 'text-green-900'}`}>💡 Smart Recommendation</p>
+                        <p className={`text-xs sm:text-sm mt-1 ${result.isAirRecommended ? 'text-blue-800' : 'text-green-800'}`}>
                           Based on your cargo size ({result.cbm} CBM), <strong>{result.recommended}</strong> is the most cost-effective and optimal option.
                         </p>
                       </div>
@@ -231,7 +232,7 @@ const EstimatorPage = () => {
 
                   <form onSubmit={handleWhatsAppConversion} className="space-y-4">
                     <div className="text-center mb-4">
-                      <p className="text-sm font-semibold text-gray-700 border-t pt-4">Lock in this estimate & chat with an agent:</p>
+                      <p className="text-xs sm:text-sm font-semibold text-gray-700 border-t pt-4">Lock in this estimate & chat with an agent:</p>
                     </div>
                     <input 
                       type="text" 
@@ -239,7 +240,7 @@ const EstimatorPage = () => {
                       value={lead.name}
                       onChange={e => setLead({...lead, name: e.target.value})}
                       placeholder="Your Full Name" 
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500"
+                      className="w-full text-sm sm:text-base px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500"
                     />
                     <input 
                       type="tel" 
@@ -247,10 +248,10 @@ const EstimatorPage = () => {
                       value={lead.phone}
                       onChange={e => setLead({...lead, phone: e.target.value})}
                       placeholder="WhatsApp Number" 
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500"
+                      className="w-full text-sm sm:text-base px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500"
                     />
-                    <Button variant="whatsapp" type="submit" className="w-full py-4 text-lg mt-2 font-bold">
-                      <MessageCircle className="w-5 h-5 mr-2" /> Get Exact Quote on WhatsApp
+                    <Button variant="whatsapp" type="submit" className="w-full py-4 text-sm sm:text-base lg:text-lg mt-2 font-bold">
+                      <MessageCircle className="w-5 h-5 mr-2" /> Get Exact Quote
                     </Button>
                   </form>
                 </div>
@@ -265,124 +266,117 @@ const EstimatorPage = () => {
 
 const HomePage = ({ navigate }) => (
   <div className="animate-fadeIn">
-    {/* Hero Section */}
     <section className="relative bg-blue-900 text-white overflow-hidden">
       <div className="absolute inset-0 opacity-20">
-        {/* Placeholder for background pattern/image */}
         <div className="w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-700 via-blue-900 to-black"></div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 relative z-10 flex flex-col lg:flex-row items-center">
-        <div className="lg:w-3/5 text-center lg:text-left">
-          <div className="inline-flex items-center bg-blue-800 rounded-full px-4 py-2 mb-6 text-sm font-medium text-blue-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-32 relative z-10 flex flex-col lg:flex-row items-center">
+        <div className="lg:w-3/5 text-center lg:text-left mb-10 lg:mb-0">
+          <div className="inline-flex items-center justify-center bg-blue-800 rounded-full px-4 py-2 mb-6 text-xs sm:text-sm font-medium text-blue-100">
             <span className="flex h-2 w-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
             Accra-Based Freight Forwarding Experts
           </div>
-          <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight mb-4 sm:mb-6 leading-tight">
             Fast & Reliable Shipping from <span className="text-orange-500">China & Dubai</span> to Ghana
           </h1>
-          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto lg:mx-0">
+          <p className="text-base sm:text-lg text-blue-100 mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0">
             Skip the stress of importing. We handle air & sea freight, customs clearance, and doorstep delivery with absolute transparency. Zero hidden fees.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <Button onClick={() => navigate('track')} className="text-lg">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+            <Button onClick={() => navigate('track')} className="text-base sm:text-lg w-full sm:w-auto">
               <Search className="w-5 h-5 mr-2" /> Track Shipment
             </Button>
-            <Button variant="outline" onClick={() => navigate('quote')} className="text-lg bg-transparent border-white text-white hover:bg-white hover:text-blue-900">
+            <Button variant="outline" onClick={() => navigate('quote')} className="text-base sm:text-lg bg-transparent border-white text-white hover:bg-white hover:text-blue-900 w-full sm:w-auto">
               Get a Quote
             </Button>
           </div>
           
-          {/* Trust Badges */}
-          <div className="mt-12 flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-blue-200">
-            <div className="flex items-center"><Shield className="w-5 h-5 mr-2 text-orange-500"/> 100% Secure Cargo</div>
-            <div className="flex items-center"><Clock className="w-5 h-5 mr-2 text-orange-500"/> Fast Transit Times</div>
-            <div className="flex items-center"><CheckCircle className="w-5 h-5 mr-2 text-orange-500"/> Customs Cleared</div>
+          <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 text-xs sm:text-sm text-blue-200">
+            <div className="flex items-center justify-center"><Shield className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-500"/> 100% Secure</div>
+            <div className="flex items-center justify-center"><Clock className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-500"/> Fast Transit</div>
+            <div className="flex items-center justify-center"><CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-500"/> Customs Cleared</div>
           </div>
         </div>
         
-        {/* Quick Track Widget */}
-        <div className="lg:w-2/5 mt-12 lg:mt-0 w-full max-w-md">
-          <div className="bg-white rounded-xl shadow-2xl p-6 text-gray-800">
-            <h3 className="text-xl font-bold text-blue-900 mb-4 flex items-center">
-              <Package className="mr-2" /> Quick Tracking
+        <div className="lg:w-2/5 w-full max-w-md mx-auto">
+          <div className="bg-white rounded-xl shadow-2xl p-5 sm:p-6 text-gray-800">
+            <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2 sm:mb-4 flex items-center">
+              <Package className="mr-2 flex-shrink-0" /> Quick Tracking
             </h3>
-            <p className="text-sm text-gray-500 mb-4">Enter your AKT tracking ID to get real-time updates.</p>
-            <form onSubmit={(e) => { e.preventDefault(); navigate('track'); }} className="space-y-4">
+            <p className="text-xs sm:text-sm text-gray-500 mb-4">Enter your AKT tracking ID to get real-time updates.</p>
+            <form onSubmit={(e) => { e.preventDefault(); navigate('track'); }} className="space-y-3 sm:space-y-4">
               <input 
                 type="text" 
                 placeholder="e.g. AKT-84729" 
-                className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full text-sm sm:text-base px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
-              <Button type="submit" className="w-full">Track Now</Button>
+              <Button type="submit" className="w-full py-3">Track Now</Button>
             </form>
           </div>
         </div>
       </div>
     </section>
 
-    {/* Mini Estimator Widget */}
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-10 mb-12">
-      <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center">
-          <div className="bg-orange-100 p-3 rounded-full mr-4 hidden sm:block">
-            <Calculator className="w-8 h-8 text-orange-500" />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 -mt-6 sm:-mt-10 mb-8 sm:mb-12">
+      <div className="bg-white rounded-xl shadow-xl p-5 sm:p-6 md:p-8 border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+        <div className="flex items-center text-center md:text-left flex-col md:flex-row w-full md:w-auto">
+          <div className="bg-orange-100 p-3 rounded-full mb-3 md:mb-0 md:mr-4">
+            <Calculator className="w-6 h-6 sm:w-8 sm:h-8 text-orange-500" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-blue-900 mb-1">Instant Cost Estimator</h3>
-            <p className="text-gray-600 text-sm">Calculate CBM and get an estimated shipping cost instantly.</p>
+            <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-1">Instant Cost Estimator</h3>
+            <p className="text-xs sm:text-sm text-gray-600">Calculate CBM and get an estimated shipping cost instantly.</p>
           </div>
         </div>
-        <Button onClick={() => navigate('estimator')} className="w-full md:w-auto px-8 py-4 text-lg">
-          Calculate Shipping Cost
+        <Button onClick={() => navigate('estimator')} className="w-full md:w-auto px-6 sm:px-8 py-3.5 sm:py-4 text-sm sm:text-base lg:text-lg">
+          Calculate Cost
         </Button>
       </div>
     </div>
 
-    {/* Stats Section */}
-    <section className="bg-gray-50 py-12 border-b border-gray-200">
+    <section className="bg-gray-50 py-10 sm:py-12 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 text-center">
           <div>
-            <div className="text-4xl font-bold text-blue-900 mb-2">5,000+</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">Shipments Delivered</div>
+            <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-1 sm:mb-2">5,000+</div>
+            <div className="text-xs sm:text-sm text-gray-600 uppercase tracking-wide">Shipments</div>
           </div>
           <div>
-            <div className="text-4xl font-bold text-blue-900 mb-2">3</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">Global Hubs</div>
+            <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-1 sm:mb-2">3</div>
+            <div className="text-xs sm:text-sm text-gray-600 uppercase tracking-wide">Global Hubs</div>
           </div>
           <div>
-            <div className="text-4xl font-bold text-blue-900 mb-2">99%</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">On-Time Delivery</div>
+            <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-1 sm:mb-2">99%</div>
+            <div className="text-xs sm:text-sm text-gray-600 uppercase tracking-wide">On-Time</div>
           </div>
           <div>
-            <div className="text-4xl font-bold text-blue-900 mb-2">24/7</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">Local Support</div>
+            <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-1 sm:mb-2">24/7</div>
+            <div className="text-xs sm:text-sm text-gray-600 uppercase tracking-wide">Support</div>
           </div>
         </div>
       </div>
     </section>
 
-    {/* Services Overview */}
-    <section className="py-20 bg-white">
+    <section className="py-12 sm:py-16 lg:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold text-blue-900 mb-4">Logistics Solutions Designed for You</h2>
-          <p className="text-gray-600">Whether you are a first-time importer or a large wholesaler, we provide tailored end-to-end solutions to get your goods to Ghana safely.</p>
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-3 sm:mb-4">Logistics Solutions Designed for You</h2>
+          <p className="text-sm sm:text-base text-gray-600">Whether you are a first-time importer or a large wholesaler, we provide tailored end-to-end solutions to get your goods to Ghana safely.</p>
         </div>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {[
-            { title: 'Air Freight', icon: <Plane className="w-10 h-10 text-orange-500" />, desc: 'Fastest delivery from China, Dubai & Turkey. 3-5 days transit. Ideal for high-value or urgent goods.' },
-            { title: 'Sea Freight (LCL & FCL)', icon: <Ship className="w-10 h-10 text-orange-500" />, desc: 'Cost-effective shipping for bulk orders. Billed by CBM. Transparent pricing inclusive of customs clearing.' },
-            { title: 'Procurement & Payment', icon: <Globe className="w-10 h-10 text-orange-500" />, desc: 'Struggling to pay suppliers? Pay us in Ghana Cedis, and we will settle your suppliers in RMB or AED.' },
+            { title: 'Air Freight', icon: <Plane className="w-8 h-8 sm:w-10 sm:h-10 text-orange-500" />, desc: 'Fastest delivery from China, Dubai & Turkey. 3-5 days transit. Ideal for high-value or urgent goods.' },
+            { title: 'Sea Freight (LCL & FCL)', icon: <Ship className="w-8 h-8 sm:w-10 sm:h-10 text-orange-500" />, desc: 'Cost-effective shipping for bulk orders. Billed by CBM. Transparent pricing inclusive of customs clearing.' },
+            { title: 'Procurement & Payment', icon: <Globe className="w-8 h-8 sm:w-10 sm:h-10 text-orange-500" />, desc: 'Struggling to pay suppliers? Pay us in Ghana Cedis, and we will settle your suppliers in RMB or AED.' },
           ].map((service, idx) => (
-            <div key={idx} className="bg-gray-50 rounded-xl p-8 hover:shadow-xl transition-shadow border border-gray-100 group">
-              <div className="bg-white w-20 h-20 rounded-full flex items-center justify-center shadow-md mb-6 group-hover:scale-110 transition-transform">
+            <div key={idx} className="bg-gray-50 rounded-xl p-6 sm:p-8 hover:shadow-xl transition-shadow border border-gray-100 group">
+              <div className="bg-white w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-md mb-5 sm:mb-6 group-hover:scale-110 transition-transform">
                 {service.icon}
               </div>
-              <h3 className="text-xl font-bold text-blue-900 mb-3">{service.title}</h3>
-              <p className="text-gray-600 mb-6">{service.desc}</p>
-              <button onClick={() => navigate('services')} className="text-orange-500 font-semibold flex items-center hover:text-orange-600">
+              <h3 className="text-lg sm:text-xl font-bold text-blue-900 mb-2 sm:mb-3">{service.title}</h3>
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">{service.desc}</p>
+              <button onClick={() => navigate('services')} className="text-orange-500 text-sm sm:text-base font-semibold flex items-center hover:text-orange-600">
                 Learn more <ChevronRight className="w-4 h-4 ml-1" />
               </button>
             </div>
@@ -391,17 +385,15 @@ const HomePage = ({ navigate }) => (
       </div>
     </section>
 
-    {/* How It Works */}
-    <section className="py-20 bg-blue-900 text-white">
+    <section className="py-12 sm:py-16 lg:py-20 bg-blue-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">How It Works</h2>
-          <p className="text-blue-200">Importing to Ghana has never been this simple.</p>
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">How It Works</h2>
+          <p className="text-sm sm:text-base text-blue-200">Importing to Ghana has never been this simple.</p>
         </div>
         
-        <div className="grid md:grid-cols-4 gap-8 relative">
-          {/* Connecting Line (Desktop) */}
-          <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-blue-800 -translate-y-1/2 z-0"></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+          <div className="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-blue-800 -translate-y-1/2 z-0"></div>
           
           {[
             { step: '01', title: 'Get Our Address', desc: 'Register to get our warehouse addresses in China or Dubai.' },
@@ -410,28 +402,27 @@ const HomePage = ({ navigate }) => (
             { step: '04', title: 'Pickup / Delivery', desc: 'Collect from our Spintex office or get doorstep delivery.' }
           ].map((item, idx) => (
             <div key={idx} className="relative z-10 flex flex-col items-center text-center">
-              <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-2xl font-bold shadow-lg mb-6 border-4 border-blue-900">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-orange-500 rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold shadow-lg mb-4 sm:mb-6 border-4 border-blue-900">
                 {item.step}
               </div>
-              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-              <p className="text-blue-200 text-sm">{item.desc}</p>
+              <h3 className="text-lg sm:text-xl font-bold mb-2">{item.title}</h3>
+              <p className="text-xs sm:text-sm text-blue-200">{item.desc}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    {/* CTA Banner */}
-    <section className="py-20 bg-orange-500 text-white text-center">
-      <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Import Without the Stress?</h2>
-        <p className="text-lg mb-10 opacity-90">Join hundreds of Ghanaian businesses that trust AKT for their freight forwarding needs.</p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button variant="secondary" onClick={() => navigate('quote')} className="text-lg px-8">
+    <section className="py-12 sm:py-16 lg:py-20 bg-orange-500 text-white text-center">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 leading-tight">Ready to Import Without the Stress?</h2>
+        <p className="text-base sm:text-lg mb-8 sm:mb-10 opacity-90">Join hundreds of Ghanaian businesses that trust AKT for their freight forwarding needs.</p>
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <Button variant="secondary" onClick={() => navigate('quote')} className="text-base sm:text-lg px-8 w-full sm:w-auto">
             Get a Free Quote
           </Button>
-          <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="inline-block">
-            <Button variant="whatsapp" className="text-lg px-8 w-full sm:w-auto">
+          <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="inline-block w-full sm:w-auto">
+            <Button variant="whatsapp" className="text-base sm:text-lg px-8 w-full">
               <MessageCircle className="w-5 h-5 mr-2" /> Chat on WhatsApp
             </Button>
           </a>
@@ -463,69 +454,67 @@ const AdminDemoPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12 animate-fadeIn">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
+    <div className="min-h-screen bg-gray-50 pt-20 sm:pt-24 pb-12 animate-fadeIn">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 sm:mb-8">
           <span className="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mb-2">Internal Tool</span>
-          <h1 className="text-3xl font-bold text-blue-900 flex items-center">
-            <Database className="w-8 h-8 mr-3 text-orange-500" /> Admin Shipment Upload (Demo)
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 flex items-center">
+            <Database className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-orange-500" /> Admin Demo
           </h1>
-          <p className="text-gray-600 mt-2">Simulate the process of uploading your daily Excel sheet to update customer tracking statuses.</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-2">Simulate the process of uploading your daily Excel sheet to update customer tracking statuses.</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-8">
-          <div className="p-8 border-b border-gray-100 bg-gray-50">
-            <h2 className="text-lg font-bold text-blue-900 mb-4 flex items-center">
+          <div className="p-5 sm:p-8 border-b border-gray-100 bg-gray-50">
+            <h2 className="text-base sm:text-lg font-bold text-blue-900 mb-4 flex items-center">
               <FileSpreadsheet className="w-5 h-5 mr-2" /> Upload Shipment File (.xlsx)
             </h2>
             <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <div className="flex-grow w-full border-2 border-dashed border-gray-300 rounded-lg p-4 bg-white text-center hover:bg-gray-50 transition-colors cursor-pointer relative">
+              <div className="w-full sm:flex-grow border-2 border-dashed border-gray-300 rounded-lg p-4 bg-white text-center hover:bg-gray-50 transition-colors cursor-pointer relative">
                 <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".xlsx, .xls, .csv" onChange={handleLoadExcel} />
-                <span className="text-gray-500 flex items-center justify-center">
-                  <Upload className="w-4 h-4 mr-2" /> {isLoaded ? 'shipments_update_may_2026.xlsx' : 'Click to browse or drag and drop Excel file'}
+                <span className="text-xs sm:text-sm text-gray-500 flex items-center justify-center">
+                  <Upload className="w-4 h-4 mr-2" /> {isLoaded ? 'shipments_update.xlsx' : 'Click to browse or drag/drop'}
                 </span>
               </div>
-              <Button onClick={handleLoadExcel} disabled={isLoaded || isLoading} className="whitespace-nowrap">
-                {isLoading && !isLoaded ? 'Reading File...' : 'Load Demo Data'}
+              <Button onClick={handleLoadExcel} disabled={isLoaded || isLoading} className="w-full sm:w-auto whitespace-nowrap">
+                {isLoading && !isLoaded ? 'Reading...' : 'Load Data'}
               </Button>
             </div>
           </div>
 
           {isLoaded && (
-            <div className="p-8 animate-fadeIn">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-bold text-gray-800">Preview Data (5 Records Found)</h3>
-                <span className="text-sm text-green-600 flex items-center font-medium">
+            <div className="p-5 sm:p-8 animate-fadeIn">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                <h3 className="font-bold text-sm sm:text-base text-gray-800">Preview Data (5 Records Found)</h3>
+                <span className="text-xs sm:text-sm text-green-600 flex items-center font-medium">
                   <CheckCircle className="w-4 h-4 mr-1" /> Data Validated
                 </span>
               </div>
               
               <div className="overflow-x-auto border border-gray-200 rounded-lg mb-6">
-                <table className="w-full text-sm text-left text-gray-500">
+                <table className="w-full text-xs sm:text-sm text-left text-gray-500 min-w-[600px]">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3">Tracking ID</th>
-                      <th className="px-6 py-3">Customer</th>
-                      <th className="px-6 py-3">Mark</th>
-                      <th className="px-6 py-3">Status</th>
-                      <th className="px-6 py-3">ETA</th>
+                      <th className="px-4 sm:px-6 py-3">Tracking ID</th>
+                      <th className="px-4 sm:px-6 py-3">Customer</th>
+                      <th className="px-4 sm:px-6 py-3">Status</th>
+                      <th className="px-4 sm:px-6 py-3">ETA</th>
                     </tr>
                   </thead>
                   <tbody>
                     {MOCK_SHIPMENT_DATA.map((row, idx) => (
                       <tr key={idx} className="bg-white border-b hover:bg-gray-50">
-                        <td className="px-6 py-4 font-medium text-blue-900">{row.trackingId}</td>
-                        <td className="px-6 py-4">{row.customerName}</td>
-                        <td className="px-6 py-4">{row.shippingMark}</td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${
+                        <td className="px-4 sm:px-6 py-3 sm:py-4 font-medium text-blue-900">{row.trackingId}</td>
+                        <td className="px-4 sm:px-6 py-3 sm:py-4">{row.customerName}</td>
+                        <td className="px-4 sm:px-6 py-3 sm:py-4">
+                          <span className={`px-2 py-1 rounded text-[10px] sm:text-xs font-medium whitespace-nowrap ${
                             row.status === 'Arrived' ? 'bg-green-100 text-green-800' : 
                             row.status === 'In Transit' ? 'bg-blue-100 text-blue-800' : 'bg-orange-100 text-orange-800'
                           }`}>
                             {row.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4">{row.eta}</td>
+                        <td className="px-4 sm:px-6 py-3 sm:py-4">{row.eta}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -534,16 +523,16 @@ const AdminDemoPage = () => {
 
               {isPushed ? (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start animate-fadeIn">
-                  <CheckCircle className="w-6 h-6 text-green-500 mr-3 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="font-bold text-green-900">Success! System Updated.</h4>
-                    <p className="text-green-800 text-sm mt-1">
-                      Shipment data pushed successfully. Customers can now track their goods live using their Tracking IDs (e.g., AKT-1001, AKT-1002).
+                    <h4 className="font-bold text-sm sm:text-base text-green-900">Success! System Updated.</h4>
+                    <p className="text-xs sm:text-sm text-green-800 mt-1">
+                      Shipment data pushed successfully. Customers can now track their goods live.
                     </p>
                   </div>
                 </div>
               ) : (
-                <Button onClick={handlePushToSystem} disabled={isLoading} className="w-full">
+                <Button onClick={handlePushToSystem} disabled={isLoading} className="w-full text-sm sm:text-base py-4">
                   {isLoading ? 'Pushing to Database...' : 'Push Update to System'}
                 </Button>
               )}
@@ -569,7 +558,6 @@ const TrackPage = () => {
     setResult(null);
     setError('');
     
-    // Search Mock Database
     setTimeout(() => {
       setIsSearching(false);
       const searchStr = trackingId.toUpperCase().trim();
@@ -578,7 +566,7 @@ const TrackPage = () => {
       if (foundItem) {
         setResult(foundItem);
       } else {
-        setError(`Tracking ID "${searchStr}" not found. Please check your ID and try again, or contact support if you believe this is an error.`);
+        setError(`Tracking ID "${searchStr}" not found. Please check your ID and try again.`);
       }
     }, 800);
   };
@@ -587,86 +575,86 @@ const TrackPage = () => {
   const currentStepIndex = result ? statusMap[result.status] || 0 : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <h1 className="text-3xl font-bold text-blue-900 mb-2">Track Your Shipment</h1>
-          <p className="text-gray-600 mb-8">Enter your tracking ID to see real-time status updates.</p>
+    <div className="min-h-screen bg-gray-50 pt-20 sm:pt-24 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 sm:p-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-900 mb-2">Track Your Shipment</h1>
+          <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">Enter your tracking ID to see real-time status updates.</p>
           
-          <form onSubmit={handleTrack} className="flex flex-col sm:flex-row gap-4 mb-8">
+          <form onSubmit={handleTrack} className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8">
             <input 
               type="text" 
               value={trackingId}
               onChange={(e) => setTrackingId(e.target.value)}
-              placeholder="Enter Tracking ID (Try: AKT-1001, AKT-1002)" 
-              className="flex-grow px-5 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg"
+              placeholder="e.g. AKT-1001" 
+              className="w-full sm:flex-grow px-4 sm:px-5 py-3.5 sm:py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm sm:text-lg"
               required
             />
-            <Button type="submit" disabled={isSearching} className="py-4 px-8 text-lg">
+            <Button type="submit" disabled={isSearching} className="w-full sm:w-auto py-3.5 sm:py-4 px-8 text-base sm:text-lg">
               {isSearching ? 'Searching...' : 'Track'}
             </Button>
           </form>
 
           {error && (
-            <div className="animate-fadeIn mb-8 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start">
+            <div className="animate-fadeIn mb-6 sm:mb-8 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start">
               <AlertCircle className="w-5 h-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" />
-              <p className="text-red-800">{error}</p>
+              <p className="text-sm sm:text-base text-red-800">{error}</p>
             </div>
           )}
 
           {result && (
             <div className="animate-fadeIn border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-              <div className="bg-blue-900 text-white p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div className="bg-blue-900 text-white p-5 sm:p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6">
                 <div>
-                  <p className="text-blue-200 text-sm uppercase tracking-wider font-semibold mb-1">Tracking ID</p>
-                  <p className="text-3xl font-bold">{result.trackingId}</p>
+                  <p className="text-blue-200 text-xs sm:text-sm uppercase tracking-wider font-semibold mb-1">Tracking ID</p>
+                  <p className="text-2xl sm:text-3xl font-bold break-all">{result.trackingId}</p>
                 </div>
-                <div className="bg-blue-800 rounded-lg p-4 w-full md:w-auto border border-blue-700 shadow-inner text-left md:text-right">
-                  <p className="text-blue-200 text-sm uppercase tracking-wider font-semibold mb-1">Current Status</p>
-                  <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold bg-orange-500 text-white shadow-md">
+                <div className="bg-blue-800 rounded-lg p-3 sm:p-4 w-full md:w-auto border border-blue-700 shadow-inner text-left md:text-right">
+                  <p className="text-blue-200 text-xs sm:text-sm uppercase tracking-wider font-semibold mb-1">Current Status</p>
+                  <span className="inline-flex items-center px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-orange-500 text-white shadow-md">
                     {result.status !== 'Arrived' && <div className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></div>}
-                    {result.status === 'Arrived' && <CheckCircle className="w-4 h-4 text-white mr-2" />}
+                    {result.status === 'Arrived' && <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white mr-2" />}
                     {result.status}
                   </span>
                 </div>
               </div>
 
-              <div className="p-6 md:p-8 bg-white">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 border-b border-gray-100 pb-8 mb-8">
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">Customer</span><br/><span className="text-lg font-bold text-gray-800">{result.customerName}</span></div>
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">Shipping Mark</span><br/><span className="text-lg font-bold text-gray-800">{result.shippingMark}</span></div>
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">Origin</span><br/><span className="text-lg font-bold text-gray-800">{result.origin}</span></div>
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">Est. Delivery</span><br/><span className="text-lg font-bold text-orange-600">{result.eta}</span></div>
+              <div className="p-5 sm:p-6 md:p-8 bg-white">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 border-b border-gray-100 pb-6 sm:pb-8 mb-6 sm:mb-8">
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">Customer</span><br/><span className="text-sm sm:text-lg font-bold text-gray-800">{result.customerName}</span></div>
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">Mark</span><br/><span className="text-sm sm:text-lg font-bold text-gray-800">{result.shippingMark}</span></div>
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">Origin</span><br/><span className="text-sm sm:text-lg font-bold text-gray-800">{result.origin}</span></div>
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">Est. Delivery</span><br/><span className="text-sm sm:text-lg font-bold text-orange-600">{result.eta}</span></div>
                   
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">Container Date</span><br/><span className="font-medium text-gray-800">{result.containerDate}</span></div>
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">Mode</span><br/><span className="font-medium text-gray-800">{result.mode}</span></div>
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">Weight</span><br/><span className="font-medium text-gray-800">{result.weight}</span></div>
-                  <div><span className="text-sm text-gray-500 uppercase font-semibold">CBM</span><br/><span className="font-medium text-gray-800">{result.cbm}</span></div>
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">Container Date</span><br/><span className="text-xs sm:text-sm font-medium text-gray-800">{result.containerDate}</span></div>
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">Mode</span><br/><span className="text-xs sm:text-sm font-medium text-gray-800">{result.mode}</span></div>
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">Weight</span><br/><span className="text-xs sm:text-sm font-medium text-gray-800">{result.weight}</span></div>
+                  <div><span className="text-xs sm:text-sm text-gray-500 uppercase font-semibold">CBM</span><br/><span className="text-xs sm:text-sm font-medium text-gray-800">{result.cbm}</span></div>
                 </div>
 
                 <div>
-                  <h4 className="font-bold text-xl text-blue-900 mb-6 flex items-center">
-                    <Truck className="w-6 h-6 mr-2 text-orange-500" /> Shipment Progress
+                  <h4 className="font-bold text-lg sm:text-xl text-blue-900 mb-5 sm:mb-6 flex items-center">
+                    <Truck className="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-orange-500" /> Shipment Progress
                   </h4>
-                  <div className="pl-4">
-                    {['Received at warehouse', 'Loaded for shipment', 'In transit to Ghana', 'Arrived & Ready for Pickup'].map((step, idx) => {
+                  <div className="pl-2 sm:pl-4">
+                    {['Received at warehouse', 'Loaded for shipment', 'In transit to Ghana', 'Arrived & Ready'].map((step, idx) => {
                       const isCompleted = idx <= currentStepIndex;
                       const isActive = idx === currentStepIndex;
                       const isLast = idx === 3;
 
                       return (
-                        <div key={idx} className="flex relative pb-8">
+                        <div key={idx} className="flex relative pb-6 sm:pb-8">
                           {!isLast && (
-                            <div className={`absolute top-6 left-2.5 w-0.5 h-full -ml-px ${isCompleted && idx < currentStepIndex ? 'bg-orange-500' : 'bg-gray-200'}`}></div>
+                            <div className={`absolute top-5 sm:top-6 left-[9px] sm:left-2.5 w-0.5 h-full -ml-px ${isCompleted && idx < currentStepIndex ? 'bg-orange-500' : 'bg-gray-200'}`}></div>
                           )}
-                          <div className={`relative z-10 flex-shrink-0 w-5 h-5 rounded-full border-4 mt-1 bg-white transition-colors duration-300 ${
+                          <div className={`relative z-10 flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-4 mt-1 bg-white transition-colors duration-300 ${
                             isCompleted ? 'border-orange-500' : 'border-gray-300'
                           }`}>
                             {isActive && <div className="absolute inset-0 bg-orange-500 rounded-full animate-ping opacity-20"></div>}
                           </div>
-                          <div className="ml-6">
-                            <p className={`font-bold text-lg ${isCompleted ? 'text-gray-900' : 'text-gray-400'}`}>{step}</p>
-                            {isActive && <p className="text-sm text-orange-600 font-medium mt-1">Current Status</p>}
+                          <div className="ml-4 sm:ml-6">
+                            <p className={`font-bold text-sm sm:text-lg leading-none mt-1 sm:mt-0 ${isCompleted ? 'text-gray-900' : 'text-gray-400'}`}>{step}</p>
+                            {isActive && <p className="text-xs sm:text-sm text-orange-600 font-medium mt-1">Current Status</p>}
                           </div>
                         </div>
                       )
@@ -691,40 +679,40 @@ const QuotePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">Request a Shipping Quote</h1>
-          <p className="text-gray-600">Fill out the form below and our team will get back to you with pricing within 2 hours.</p>
+    <div className="min-h-screen bg-gray-50 pt-20 sm:pt-24 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-900 mb-3 sm:mb-4">Request a Shipping Quote</h1>
+          <p className="text-sm sm:text-base text-gray-600">Fill out the form below and our team will get back to you with pricing within 2 hours.</p>
         </div>
 
         {submitted ? (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-10 text-center animate-fadeIn">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-10 h-10 text-green-500" />
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-10 text-center animate-fadeIn">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-500" />
             </div>
-            <h2 className="text-2xl font-bold text-blue-900 mb-4">Quote Request Sent!</h2>
-            <p className="text-gray-600 mb-8">Thank you. One of our agents will contact you shortly via WhatsApp or Email with your customized quote.</p>
-            <Button onClick={() => setSubmitted(false)}>Submit Another Request</Button>
+            <h2 className="text-xl sm:text-2xl font-bold text-blue-900 mb-3 sm:mb-4">Quote Request Sent!</h2>
+            <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">Thank you. One of our agents will contact you shortly via WhatsApp or Email with your customized quote.</p>
+            <Button onClick={() => setSubmitted(false)} className="w-full sm:w-auto mx-auto text-sm sm:text-base">Submit Another Request</Button>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 md:p-10">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 sm:p-8 md:p-10">
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                  <input type="text" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Kwame Mensah" />
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                  <input type="text" required className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Kwame Mensah" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">WhatsApp Number</label>
-                  <input type="tel" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="+233 55 000 0000" />
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">WhatsApp Number</label>
+                  <input type="tel" required className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="+233 55 000 0000" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Origin Country</label>
-                  <select required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Origin Country</label>
+                  <select required className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
                     <option value="">Select Origin</option>
                     <option value="China">China</option>
                     <option value="Dubai">Dubai (UAE)</option>
@@ -733,8 +721,8 @@ const QuotePage = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Shipping Method</label>
-                  <select required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Shipping Method</label>
+                  <select required className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
                     <option value="">Select Method</option>
                     <option value="Air">Air Freight (Fast)</option>
                     <option value="Sea">Sea Freight (Economical)</option>
@@ -744,21 +732,21 @@ const QuotePage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Type of Goods</label>
-                <input type="text" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="e.g. Electronics, Clothing, Auto Parts" />
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Type of Goods</label>
+                <input type="text" required className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="e.g. Electronics, Clothing, Auto Parts" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Estimated Weight / CBM (Optional)</label>
-                <input type="text" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="e.g. 50kg or 2 CBM" />
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Estimated Weight / CBM (Optional)</label>
+                <input type="text" className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="e.g. 50kg or 2 CBM" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Additional Notes</label>
-                <textarea rows="3" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Any specific requirements or questions?"></textarea>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Additional Notes</label>
+                <textarea rows="3" className="w-full text-sm sm:text-base px-3 sm:px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Any specific requirements?"></textarea>
               </div>
 
-              <Button type="submit" className="w-full py-4 text-lg">Request Quote Now</Button>
+              <Button type="submit" className="w-full py-4 text-base sm:text-lg">Request Quote Now</Button>
             </form>
           </div>
         )}
@@ -768,69 +756,65 @@ const QuotePage = () => {
 };
 
 const ServicesPage = ({ navigate }) => (
-  <div className="pt-24 pb-12 animate-fadeIn">
-    {/* Header */}
-    <div className="bg-blue-900 text-white py-16">
+  <div className="pt-20 sm:pt-24 pb-12 animate-fadeIn">
+    <div className="bg-blue-900 text-white py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-4xl font-bold mb-4">Our Services</h1>
-        <p className="text-xl text-blue-100 max-w-2xl mx-auto">Comprehensive logistics solutions tailored for Ghanaian businesses importing from global markets.</p>
+        <h1 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4">Our Services</h1>
+        <p className="text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">Comprehensive logistics solutions tailored for Ghanaian businesses importing from global markets.</p>
       </div>
     </div>
 
-    {/* Main Services */}
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="grid lg:grid-cols-2 gap-12 mb-16">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <Plane className="w-12 h-12 text-orange-500 mb-6" />
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">Air Freight</h2>
-          <p className="text-gray-600 mb-6">When speed is your priority. We offer daily flights from major hubs in China, Dubai, and Turkey direct to Kotoka International Airport (ACC).</p>
-          <ul className="space-y-3 mb-8">
-            <li className="flex items-center text-gray-700"><CheckCircle className="w-5 h-5 text-green-500 mr-3"/> 3-5 days transit time</li>
-            <li className="flex items-center text-gray-700"><CheckCircle className="w-5 h-5 text-green-500 mr-3"/> Custom clearance included</li>
-            <li className="flex items-center text-gray-700"><CheckCircle className="w-5 h-5 text-green-500 mr-3"/> Minimum weight: 1kg</li>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-12 sm:mb-16">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+          <Plane className="w-10 h-10 sm:w-12 sm:h-12 text-orange-500 mb-5 sm:mb-6" />
+          <h2 className="text-xl sm:text-2xl font-bold text-blue-900 mb-3 sm:mb-4">Air Freight</h2>
+          <p className="text-sm sm:text-base text-gray-600 mb-5 sm:mb-6">When speed is your priority. We offer daily flights from major hubs in China, Dubai, and Turkey direct to Kotoka International Airport (ACC).</p>
+          <ul className="space-y-3 mb-6 sm:mb-8">
+            <li className="flex items-center text-sm sm:text-base text-gray-700"><CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-3 flex-shrink-0"/> 3-5 days transit time</li>
+            <li className="flex items-center text-sm sm:text-base text-gray-700"><CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-3 flex-shrink-0"/> Custom clearance included</li>
+            <li className="flex items-center text-sm sm:text-base text-gray-700"><CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-3 flex-shrink-0"/> Minimum weight: 1kg</li>
           </ul>
-          <Button onClick={() => navigate('quote')} variant="outline" className="w-full">Get Air Freight Quote</Button>
+          <Button onClick={() => navigate('quote')} variant="outline" className="w-full">Get Air Quote</Button>
         </div>
         
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-          <Ship className="w-12 h-12 text-orange-500 mb-6" />
-          <h2 className="text-2xl font-bold text-blue-900 mb-4">Sea Freight (LCL & FCL)</h2>
-          <p className="text-gray-600 mb-6">The most cost-effective way to import bulk items. Whether you need a full container (FCL) or just space for a few boxes (LCL).</p>
-          <ul className="space-y-3 mb-8">
-            <li className="flex items-center text-gray-700"><CheckCircle className="w-5 h-5 text-green-500 mr-3"/> 35-45 days transit time</li>
-            <li className="flex items-center text-gray-700"><CheckCircle className="w-5 h-5 text-green-500 mr-3"/> Pricing per CBM</li>
-            <li className="flex items-center text-gray-700"><CheckCircle className="w-5 h-5 text-green-500 mr-3"/> Handled securely at Tema Port</li>
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
+          <Ship className="w-10 h-10 sm:w-12 sm:h-12 text-orange-500 mb-5 sm:mb-6" />
+          <h2 className="text-xl sm:text-2xl font-bold text-blue-900 mb-3 sm:mb-4">Sea Freight (LCL & FCL)</h2>
+          <p className="text-sm sm:text-base text-gray-600 mb-5 sm:mb-6">The most cost-effective way to import bulk items. Whether you need a full container (FCL) or just space for a few boxes (LCL).</p>
+          <ul className="space-y-3 mb-6 sm:mb-8">
+            <li className="flex items-center text-sm sm:text-base text-gray-700"><CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-3 flex-shrink-0"/> 35-45 days transit time</li>
+            <li className="flex items-center text-sm sm:text-base text-gray-700"><CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-3 flex-shrink-0"/> Pricing per CBM</li>
+            <li className="flex items-center text-sm sm:text-base text-gray-700"><CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-3 flex-shrink-0"/> Handled securely at Tema Port</li>
           </ul>
-          <Button onClick={() => navigate('quote')} variant="outline" className="w-full">Get Sea Freight Quote</Button>
+          <Button onClick={() => navigate('quote')} variant="outline" className="w-full">Get Sea Quote</Button>
         </div>
       </div>
 
-      {/* Procurement Section */}
-      <div className="bg-orange-50 rounded-2xl p-8 md:p-12 mb-16 flex flex-col md:flex-row items-center gap-8 border border-orange-100">
-        <div className="md:w-2/3">
-          <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-4">Supplier Payment & Procurement</h2>
-          <p className="text-gray-700 text-lg mb-4">
-            Don't let forex issues stop your business. We help importers pay their suppliers directly in China (RMB/Alipay/WeChat) and Dubai. 
+      <div className="bg-orange-50 rounded-2xl p-6 sm:p-8 md:p-12 mb-12 sm:mb-16 flex flex-col md:flex-row items-center gap-6 sm:gap-8 border border-orange-100">
+        <div className="w-full md:w-2/3 text-center md:text-left">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-900 mb-3 sm:mb-4">Supplier Payment & Procurement</h2>
+          <p className="text-gray-700 text-sm sm:text-lg mb-3 sm:mb-4">
+            Don't let forex issues stop your business. We help importers pay their suppliers directly in China and Dubai. 
           </p>
-          <p className="text-gray-700">
+          <p className="text-gray-700 text-sm sm:text-base">
             Simply pay us the equivalent in Ghana Cedis, and we will settle your supplier the same day. Safe, transparent, and fast.
           </p>
         </div>
-        <div className="md:w-1/3 w-full">
-          <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer">
-            <Button variant="primary" className="w-full py-4"><MessageCircle className="mr-2"/> Chat with Procurement</Button>
+        <div className="w-full md:w-1/3 mt-4 md:mt-0">
+          <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="block">
+            <Button variant="primary" className="w-full py-4 text-sm sm:text-base"><MessageCircle className="w-5 h-5 mr-2"/> Chat with Procurement</Button>
           </a>
         </div>
       </div>
 
-      {/* FAQs */}
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-center text-blue-900 mb-10">Frequently Asked Questions</h2>
-        <div className="space-y-6">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-blue-900 mb-8 sm:mb-10">Frequently Asked Questions</h2>
+        <div className="space-y-4 sm:space-y-6">
           {FAQS.map((faq, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <h3 className="font-bold text-lg text-blue-900 mb-2">{faq.q}</h3>
-              <p className="text-gray-600">{faq.a}</p>
+            <div key={idx} className="bg-white p-5 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
+              <h3 className="font-bold text-base sm:text-lg text-blue-900 mb-2">{faq.q}</h3>
+              <p className="text-sm sm:text-base text-gray-600">{faq.a}</p>
             </div>
           ))}
         </div>
@@ -845,7 +829,6 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Scroll to top on page change
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsMobileMenuOpen(false);
@@ -860,12 +843,11 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-white text-gray-900">
-      {/* Navigation */}
+    // Added overflow-x-hidden to prevent any horizontal scrolling on mobile devices
+    <div className="min-h-screen flex flex-col font-sans bg-white text-gray-900 overflow-x-hidden w-full">
       <nav className="fixed top-0 w-full bg-white shadow-md z-50 transition-all">
-        {/* Top bar */}
-        <div className="bg-blue-900 text-white text-xs py-2 hidden md:block">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div className="bg-blue-900 text-white text-[10px] sm:text-xs py-2 hidden md:block">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0">
             <div className="flex space-x-4">
               <span className="flex items-center"><MapPin className="w-3 h-3 mr-1"/> {ADDRESS}</span>
               <span className="flex items-center"><Clock className="w-3 h-3 mr-1"/> Mon-Sat: 8am - 6pm</span>
@@ -877,84 +859,79 @@ export default function App() {
           </div>
         </div>
         
-        {/* Main Nav */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
+          <div className="flex justify-between items-center h-16 sm:h-20">
             <div 
               className="flex items-center cursor-pointer" 
               onClick={() => setCurrentPage('home')}
             >
-              <div className="bg-blue-900 p-2 rounded-lg mr-2">
-                <Anchor className="text-white w-6 h-6" />
+              <div className="bg-blue-900 p-1.5 sm:p-2 rounded-lg mr-2">
+                <Anchor className="text-white w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <span className="font-bold text-xl text-blue-900 tracking-tight block leading-none">AKT</span>
-                <span className="text-[10px] text-orange-500 font-bold uppercase tracking-widest block">Logistics</span>
+                <span className="font-bold text-lg sm:text-xl text-blue-900 tracking-tight block leading-none">AKT</span>
+                <span className="text-[9px] sm:text-[10px] text-orange-500 font-bold uppercase tracking-widest block">Logistics</span>
               </div>
             </div>
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
               {navItems.map(item => (
                 <button
                   key={item.id}
                   onClick={() => setCurrentPage(item.id)}
-                  className={`font-semibold transition-colors ${
+                  className={`font-semibold text-sm lg:text-base transition-colors ${
                     currentPage === item.id ? 'text-orange-500' : 'text-gray-600 hover:text-blue-900'
                   }`}
                 >
                   {item.label}
                 </button>
               ))}
-              <div className="flex space-x-3 border-l pl-8 border-gray-200">
-                <Button variant="outline" onClick={() => setCurrentPage('track')} className="py-2 px-4 text-sm">
+              <div className="flex space-x-3 border-l pl-6 lg:pl-8 border-gray-200">
+                <button onClick={() => setCurrentPage('track')} className="border-2 border-blue-900 text-blue-900 hover:bg-blue-50 py-2 px-4 rounded-md text-sm font-semibold transition-all">
                   Track
-                </Button>
-                <Button variant="primary" onClick={() => setCurrentPage('quote')} className="py-2 px-4 text-sm">
+                </button>
+                <button onClick={() => setCurrentPage('quote')} className="bg-orange-500 hover:bg-orange-600 text-white shadow-md py-2 px-4 rounded-md text-sm font-semibold transition-all">
                   Get Quote
-                </Button>
+                </button>
               </div>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center">
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-blue-900 p-2"
+                className="text-blue-900 p-2 focus:outline-none"
+                aria-label="Toggle Menu"
               >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {isMobileMenuOpen ? <X className="w-6 h-6 sm:w-7 sm:h-7" /> : <Menu className="w-6 h-6 sm:w-7 sm:h-7" />}
               </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu Panel */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full">
-            <div className="px-4 pt-2 pb-6 space-y-2">
+          <div className="md:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full left-0 right-0 max-h-[calc(100vh-64px)] overflow-y-auto">
+            <div className="px-4 pt-2 pb-8 space-y-2">
               {navItems.map(item => (
                 <button
                   key={item.id}
                   onClick={() => setCurrentPage(item.id)}
-                  className={`block w-full text-left px-4 py-3 font-semibold rounded-md ${
+                  className={`block w-full text-left px-4 py-4 text-base font-semibold rounded-md ${
                     currentPage === item.id ? 'bg-blue-50 text-orange-500' : 'text-gray-700'
                   }`}
                 >
                   {item.label}
                 </button>
               ))}
-              <div className="pt-4 flex flex-col space-y-3 px-4">
-                <Button variant="outline" onClick={() => setCurrentPage('track')} className="w-full">Track Shipment</Button>
-                <Button variant="primary" onClick={() => setCurrentPage('quote')} className="w-full">Get a Quote</Button>
+              <div className="pt-4 flex flex-col space-y-3 px-2">
+                <Button variant="outline" onClick={() => setCurrentPage('track')} className="w-full py-4 text-base">Track Shipment</Button>
+                <Button variant="primary" onClick={() => setCurrentPage('quote')} className="w-full py-4 text-base">Get a Quote</Button>
               </div>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Main Content Area */}
-      <main className="flex-grow">
+      <main className="flex-grow w-full max-w-[100vw]">
         {currentPage === 'home' && <HomePage navigate={setCurrentPage} />}
         {currentPage === 'services' && <ServicesPage navigate={setCurrentPage} />}
         {currentPage === 'track' && <TrackPage />}
@@ -963,19 +940,17 @@ export default function App() {
         {currentPage === 'admin' && <AdminDemoPage />}
       </main>
 
-      {/* Footer */}
-      <footer className="bg-blue-900 text-blue-200 py-12 border-t-4 border-orange-500">
+      <footer className="bg-blue-900 text-blue-200 py-10 sm:py-12 border-t-4 border-orange-500 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Brand */}
-            <div className="col-span-1 md:col-span-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+            <div className="col-span-1">
               <div className="flex items-center mb-4">
                 <div className="bg-white p-1.5 rounded mr-2">
                   <Anchor className="text-blue-900 w-5 h-5" />
                 </div>
-                <span className="font-bold text-xl text-white">AKT Logistics</span>
+                <span className="font-bold text-lg sm:text-xl text-white">AKT Logistics</span>
               </div>
-              <p className="text-sm text-blue-200 mb-4">
+              <p className="text-xs sm:text-sm text-blue-200 mb-4">
                 Your trusted partner for freight forwarding from China and Dubai to Ghana. Fast, safe, and transparent.
               </p>
               <button 
@@ -986,85 +961,81 @@ export default function App() {
               </button>
             </div>
 
-            {/* Quick Links */}
             <div>
-              <h4 className="text-white font-bold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm">
-                <li><button onClick={() => setCurrentPage('home')} className="hover:text-white transition-colors">Home</button></li>
-                <li><button onClick={() => setCurrentPage('services')} className="hover:text-white transition-colors">Our Services</button></li>
-                <li><button onClick={() => setCurrentPage('track')} className="hover:text-white transition-colors">Track Shipment</button></li>
-                <li><button onClick={() => setCurrentPage('quote')} className="hover:text-white transition-colors">Get a Quote</button></li>
+              <h4 className="text-white font-bold mb-3 sm:mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-xs sm:text-sm">
+                <li><button onClick={() => setCurrentPage('home')} className="hover:text-white transition-colors py-1">Home</button></li>
+                <li><button onClick={() => setCurrentPage('services')} className="hover:text-white transition-colors py-1">Our Services</button></li>
+                <li><button onClick={() => setCurrentPage('track')} className="hover:text-white transition-colors py-1">Track Shipment</button></li>
+                <li><button onClick={() => setCurrentPage('quote')} className="hover:text-white transition-colors py-1">Get a Quote</button></li>
               </ul>
             </div>
 
-            {/* Services */}
             <div>
-              <h4 className="text-white font-bold mb-4">Our Services</h4>
-              <ul className="space-y-2 text-sm">
-                <li>Air Freight to Ghana</li>
-                <li>Sea Freight (LCL & FCL)</li>
-                <li>Customs Clearance</li>
-                <li>Supplier Procurement</li>
-                <li>Doorstep Delivery</li>
+              <h4 className="text-white font-bold mb-3 sm:mb-4">Our Services</h4>
+              <ul className="space-y-2 text-xs sm:text-sm">
+                <li className="py-1">Air Freight to Ghana</li>
+                <li className="py-1">Sea Freight (LCL & FCL)</li>
+                <li className="py-1">Customs Clearance</li>
+                <li className="py-1">Supplier Procurement</li>
+                <li className="py-1">Doorstep Delivery</li>
               </ul>
             </div>
 
-            {/* Contact */}
             <div>
-              <h4 className="text-white font-bold mb-4">Contact Us</h4>
-              <ul className="space-y-3 text-sm">
+              <h4 className="text-white font-bold mb-3 sm:mb-4">Contact Us</h4>
+              <ul className="space-y-3 text-xs sm:text-sm">
                 <li className="flex items-start">
-                  <MapPin className="w-5 h-5 mr-2 text-orange-500 flex-shrink-0" />
-                  <span>{ADDRESS}</span>
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-500 flex-shrink-0 mt-0.5" />
+                  <span className="leading-snug">{ADDRESS}</span>
                 </li>
                 <li className="flex items-center">
-                  <Phone className="w-5 h-5 mr-2 text-orange-500 flex-shrink-0" />
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-500 flex-shrink-0" />
                   <span>{PHONE_NUMBER}</span>
                 </li>
                 <li className="flex items-center">
-                  <Mail className="w-5 h-5 mr-2 text-orange-500 flex-shrink-0" />
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-500 flex-shrink-0" />
                   <span>{EMAIL}</span>
                 </li>
               </ul>
             </div>
           </div>
           
-          <div className="border-t border-blue-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
+          <div className="border-t border-blue-800 mt-10 sm:mt-12 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-center sm:text-left gap-4">
             <p>&copy; {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.</p>
-            <div className="space-x-4 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white">Privacy Policy</a>
-              <a href="#" className="hover:text-white">Terms of Service</a>
+            <div className="space-x-4 flex flex-wrap justify-center">
+              <a href="#" className="hover:text-white py-1">Privacy Policy</a>
+              <a href="#" className="hover:text-white py-1">Terms of Service</a>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Floating WhatsApp Button */}
+      {/* Floating WhatsApp Button - Optimized for Mobile safe areas */}
       <a 
         href={WHATSAPP_LINK} 
         target="_blank" 
         rel="noreferrer"
-        className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 hover:scale-110 transition-all z-50 group flex items-center"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-green-500 text-white p-3 sm:p-4 rounded-full shadow-2xl hover:bg-green-600 hover:scale-110 transition-all z-50 group flex items-center"
         aria-label="Chat on WhatsApp"
       >
-        <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-in-out whitespace-nowrap px-0 group-hover:px-2 font-semibold">
+        <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-in-out whitespace-nowrap px-0 group-hover:px-2 font-semibold text-sm hidden sm:inline-block">
           Chat with us
         </span>
-        <MessageCircle className="w-7 h-7" />
-        <span className="absolute top-0 right-0 flex h-3 w-3">
+        <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7" />
+        <span className="absolute top-0 right-0 flex h-2.5 w-2.5 sm:h-3 sm:w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-200 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-white"></span>
         </span>
       </a>
 
-      {/* Global Styles for Animations */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
         .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out forwards;
+          animation: fadeIn 0.4s ease-out forwards;
         }
       `}} />
     </div>
